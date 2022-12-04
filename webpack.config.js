@@ -7,10 +7,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "build"),
     publicPath: "auto",
-    filename: "[name].js"
+    filename: "[name].js",
   },
   resolve: {
-    extensions: [".js", ".jsx"] // add your other extensions here
+    extensions: [".js", ".jsx"], // add your other extensions here
   },
   module: {
     rules: [
@@ -18,24 +18,25 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
-      }
-    ]
+          loader: "babel-loader",
+        },
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin(),
     new InjectBodyPlugin({
-      content: "<main id=root></main>"
-    })
+      content: "<main id=root></main>",
+    }),
   ],
   devServer: {
     static: {
       directory: path.resolve(__dirname, "public"),
-      publicPath: "/build/"
+      publicPath: "/build/",
     },
     open: true,
     port: 3000,
-    client: { overlay: true }
-  }
+    allowedHosts: ["localhost", ".preview.csb.app"],
+    client: { overlay: true },
+  },
 };
