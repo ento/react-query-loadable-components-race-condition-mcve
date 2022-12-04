@@ -1,2 +1,6 @@
-# react-query-loadable-components-race-condition-mcve
-Created with CodeSandbox
+# Example
+
+To run this example:
+
+- `pnpm install`
+- `pnpm dev`
