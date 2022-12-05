@@ -34,7 +34,6 @@ module.exports = {
       directory: path.resolve(__dirname, "public"),
       publicPath: "/build/",
     },
-    open: true,
     port: 3000,
     allowedHosts: ["localhost", ".preview.csb.app"],
     client: { overlay: true },
