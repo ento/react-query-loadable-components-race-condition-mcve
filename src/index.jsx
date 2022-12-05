@@ -6,6 +6,25 @@ import loadableComponent from "@loadable/component";
 
 import { useProjects } from "./queries";
 
+function withForcedRerendering(WrappedComponent) {
+  const Wrapper = (props) => {
+    // Most efficient way to force a re-render
+    // https://reactjs.org/docs/hooks-faq.html#is-there-something-like-forceupdate
+    const [_, forceUpdate] = useReducer((x) => x + 1, 0);
+    useEffect(() => {
+      setTimeout(() => {
+        console.warn("Force update");
+        forceUpdate();
+      }, 0);
+    }, []);
+
+    return <WrappedComponent {...props}></WrappedComponent>;
+  };
+  const wrappedComponentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+  Wrapper.displayName = `withLazyLoadedReactivityEnsurer(${wrappedComponentName})`;
+  return Wrapper;
+}
+
 const Navbar = () => {
   console.log(new Date().getTime(), "Rendering Navbar");
   const { data } = useProjects();
