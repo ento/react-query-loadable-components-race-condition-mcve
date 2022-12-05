@@ -55,9 +55,8 @@ function useProjectsNested() {
 }
 
 export default function Projects() {
-  const { data } = useProjectsNested();
   block(20);
-
-  console.log(new Date().getTime(), "Rendering Projects", data);
+  console.log(new Date().getTime(), "Rendering Projects");
+  const { data } = useProjectsNested();
   return <>projects: {JSON.stringify(data)}</>;
 }
