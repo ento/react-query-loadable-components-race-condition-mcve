@@ -1,0 +1,12 @@
+diff --git a/node_modules/@tanstack/react-query/build/lib/useBaseQuery.mjs b/node_modules/@tanstack/react-query/build/lib/useBaseQuery.mjs
+index cdeefec..cb8a8f6 100644
+--- a/node_modules/@tanstack/react-query/build/lib/useBaseQuery.mjs
++++ b/node_modules/@tanstack/react-query/build/lib/useBaseQuery.mjs
+@@ -34,6 +34,7 @@ function useBaseQuery(options, Observer) {
+   useClearResetErrorBoundary(errorResetBoundary);
+   const [observer] = React.useState(() => new Observer(queryClient, defaultedOptions));
+   const result = observer.getOptimisticResult(defaultedOptions);
++  console.log("@tanstack/react-query", "calling useSyncExternalStore", options.queryKey);
+   useSyncExternalStore(React.useCallback(onStoreChange => isRestoring ? () => undefined : observer.subscribe(notifyManager.batchCalls(onStoreChange)), [observer, isRestoring]), () => observer.getCurrentResult(), () => observer.getCurrentResult());
+   React.useEffect(() => {
+     // Do not notify on updates because of changes in the options because

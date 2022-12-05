@@ -7,6 +7,7 @@ import loadableComponent from "@loadable/component";
 import { useProjects } from "./queries";
 
 const Navbar = () => {
+  console.log(new Date().getTime(), "Rendering Navbar");
   const { data } = useProjects();
   return <div>Navbar projects: {JSON.stringify(data)}</div>;
 };
