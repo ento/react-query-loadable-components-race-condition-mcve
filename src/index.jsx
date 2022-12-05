@@ -1,6 +1,6 @@
-import React from "react";
-// import { render } from "react-dom";
-import { createRoot } from "react-dom/client";
+import React, {useReducer, useEffect} from "react";
+import { render } from "react-dom";
+// import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import loadableComponent from "@loadable/component";
 
@@ -44,10 +44,10 @@ function Page() {
 }
 
 // React < 18
-// const rootElement = document.getElementById("root");
-// render(<App />, rootElement);
+const rootElement = document.getElementById("root");
+render(<App />, rootElement);
 
 // React 18+
-const container = document.getElementById("root");
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
-root.render(<App />);
+// const container = document.getElementById("root");
+// const root = createRoot(container); // createRoot(container!) if you use TypeScript
+// root.render(<App />);
