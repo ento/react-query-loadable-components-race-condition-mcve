@@ -12,9 +12,11 @@ const Navbar = () => {
   return <div>Non-loadable projects: {JSON.stringify(data)}</div>;
 };
 
-const LazyProjects = loadableComponent(() =>
-  import(/* webpackChunkName: "projects" */ "./components/Projects")
-);
+const LoadableProjects = loadableComponent(async () => {
+  const mod = await import(/* webpackChunkName: "projects" */ "./components/Projects")
+  // return withForcedRerendering(mod.default);
+  return mod;
+});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,7 +40,7 @@ function Page() {
     <>
       <Navbar />
       <hr />
-      Loadable: <LazyProjects />
+      Loadable: <LoadableProjects />
     </>
   );
 }
