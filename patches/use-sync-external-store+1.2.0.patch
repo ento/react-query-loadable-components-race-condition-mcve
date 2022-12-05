@@ -1,0 +1,83 @@
+diff --git a/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.development.js b/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.development.js
+index c849ab8..783be50 100644
+--- a/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.development.js
++++ b/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.development.js
+@@ -39,6 +39,15 @@ function error(format) {
+   }
+ }
+ 
++function block(minWaitMillisecs) {
++  console.log("blocking for", minWaitMillisecs, "ms")
++  const start = new Date().getTime();
++  while (true) {
++    const now = new Date().getTime();
++    if (now - start > minWaitMillisecs) break;
++  }
++}
++
+ function printWarning(level, format, args) {
+   // When changing this logic, you might want to also
+   // update consoleWithStackDev.www.js as well.
+@@ -113,6 +122,7 @@ getServerSnapshot) {
+ 
+ 
+   var value = getSnapshot();
++  console.log("use-sync-external-store", "initial value", JSON.stringify(value))
+ 
+   {
+     if (!didWarnUncachedGetSnapshot) {
+@@ -159,6 +169,8 @@ getServerSnapshot) {
+     // this can happen all the time, but even in synchronous mode, an earlier
+     // effect may have mutated the store.
+ 
++    console.log("use-sync-external-store", "useLayoutEffect", "snapshot changed:", checkIfSnapshotChanged(inst, true))
++    block(400);
+     if (checkIfSnapshotChanged(inst)) {
+       // Force a re-render.
+       forceUpdate({
+@@ -169,6 +181,7 @@ getServerSnapshot) {
+   useEffect(function () {
+     // Check for changes right before subscribing. Subsequent changes will be
+     // detected in the subscription handler.
++    console.log("use-sync-external-store", "useEffect", "pre-subscribe snapshot changed:", checkIfSnapshotChanged(inst, true))
+     if (checkIfSnapshotChanged(inst)) {
+       // Force a re-render.
+       forceUpdate({
+@@ -183,6 +196,7 @@ getServerSnapshot) {
+       // the case and print a warning in development?
+       // The store changed. Check if the snapshot changed since the last time we
+       // read from the store.
++      console.log("use-sync-external-store", "handleStoreChange", "snapshot changed", checkIfSnapshotChanged(inst, true))
+       if (checkIfSnapshotChanged(inst)) {
+         // Force a re-render.
+         forceUpdate({
+@@ -192,20 +206,28 @@ getServerSnapshot) {
+     }; // Subscribe to the store and return a clean-up function.
+ 
+ 
++    console.log("use-sync-external-store", "useEffect", "SUBSCRIBING")
+     return subscribe(handleStoreChange);
+   }, [subscribe]);
+   useDebugValue(value);
+   return value;
+ }
+ 
+-function checkIfSnapshotChanged(inst) {
++function checkIfSnapshotChanged(inst, debug) {
+   var latestGetSnapshot = inst.getSnapshot;
+   var prevValue = inst.value;
+ 
+   try {
+     var nextValue = latestGetSnapshot();
++    if (debug) {
++        console.groupCollapsed("useSyncExternalStore checkIfSnapshotChanged")
++        console.log("prevValue", JSON.stringify(prevValue))
++        console.log("nextValue", JSON.stringify(nextValue))
++        console.groupEnd()
++    }
+     return !objectIs(prevValue, nextValue);
+   } catch (error) {
++    console.log("useSyncExternalStore", "checkIfSnapshotChanged", "error", error)
+     return true;
+   }
+ }
