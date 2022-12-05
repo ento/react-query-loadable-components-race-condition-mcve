@@ -9,7 +9,7 @@ import { useProjects } from "./queries";
 const Navbar = () => {
   console.log(new Date().getTime(), "Rendering Navbar");
   const { data } = useProjects();
-  return <div>Navbar projects: {JSON.stringify(data)}</div>;
+  return <div>Non-loadable projects: {JSON.stringify(data)}</div>;
 };
 
 const LazyProjects = loadableComponent(() =>
@@ -38,7 +38,7 @@ function Page() {
     <>
       <Navbar />
       <hr />
-      Lazy: <LazyProjects />
+      Loadable: <LazyProjects />
     </>
   );
 }
