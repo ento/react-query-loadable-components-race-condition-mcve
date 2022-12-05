@@ -1,0 +1,13 @@
+diff --git a/node_modules/scheduler/cjs/scheduler.development.js b/node_modules/scheduler/cjs/scheduler.development.js
+index 200e838..174a45b 100644
+--- a/node_modules/scheduler/cjs/scheduler.development.js
++++ b/node_modules/scheduler/cjs/scheduler.development.js
+@@ -151,7 +151,7 @@ typeof MessageChannel !== 'function') {
+       // the message event.
+ 
+       deadline = currentTime + yieldInterval;
+-      var hasTimeRemaining = true;
++      var hasTimeRemaining = false;
+ 
+       try {
+         var hasMoreWork = scheduledHostCallback(hasTimeRemaining, currentTime);
