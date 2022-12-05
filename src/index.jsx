@@ -33,8 +33,8 @@ const Navbar = () => {
 
 const LoadableProjects = loadableComponent(async () => {
   const mod = await import(/* webpackChunkName: "projects" */ "./components/Projects")
-  // return withForcedRerendering(mod.default);
-  return mod;
+  return withForcedRerendering(mod.default);
+  // return mod;
 });
 
 const queryClient = new QueryClient({
