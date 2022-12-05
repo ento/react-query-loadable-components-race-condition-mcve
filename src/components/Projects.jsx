@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 
 import { useProjects } from "../queries";
 
+const delayPerHookMsec = 20;
+
 function block(minWaitMillisecs) {
   const start = new Date().getTime();
   while (true) {
@@ -13,7 +15,7 @@ function block(minWaitMillisecs) {
 function useProjectsNestedNestedNested() {
   const { data } = useProjects();
   useEffect(() => {
-    block(20);
+    block(delayPerHookMsec);
     console.log(
       new Date().getTime(),
       "useProjectsNestedNestedNested",
@@ -28,7 +30,7 @@ function useProjectsNestedNestedNested() {
 function useProjectsNestedNested() {
   const { data } = useProjectsNestedNestedNested();
   useEffect(() => {
-    block(20);
+    block(delayPerHookMsec);
     console.log(
       new Date().getTime(),
       "useProjectsBranch",
@@ -42,7 +44,7 @@ function useProjectsNestedNested() {
 function useProjectsNested() {
   const { data } = useProjectsNestedNested();
   useEffect(() => {
-    block(20);
+    block(delayPerHookMsec);
     console.log(
       new Date().getTime(),
       "useProjectsNested",
@@ -55,7 +57,7 @@ function useProjectsNested() {
 }
 
 export default function Projects() {
-  block(20);
+  block(delayPerHookMsec);
   console.log(new Date().getTime(), "Rendering Projects");
   const { data } = useProjectsNested();
   return <>projects: {JSON.stringify(data)}</>;
