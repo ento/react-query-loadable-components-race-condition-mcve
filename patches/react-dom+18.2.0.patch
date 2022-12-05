@@ -1,0 +1,44 @@
+diff --git a/node_modules/react-dom/cjs/react-dom.development.js b/node_modules/react-dom/cjs/react-dom.development.js
+index e4ed5ae..90a5d0b 100644
+--- a/node_modules/react-dom/cjs/react-dom.development.js
++++ b/node_modules/react-dom/cjs/react-dom.development.js
+@@ -16938,6 +16938,7 @@ function updateStoreInstance(fiber, inst, nextSnapshot, getSnapshot) {
+   // have been in a layout effect. In that case, we would have used the old
+   // snapsho and getSnapshot values to bail out. We need to check one more time.
+ 
++  console.log("useSyncExternalStore", "updateStoreInstance", "check changed", checkIfSnapshotChanged(inst, true))
+   if (checkIfSnapshotChanged(inst)) {
+     // Force a re-render.
+     forceStoreRerender(fiber);
+@@ -16948,6 +16949,7 @@ function subscribeToStore(fiber, inst, subscribe) {
+   var handleStoreChange = function () {
+     // The store changed. Check if the snapshot changed since the last time we
+     // read from the store.
++    console.log("useSyncExternalStore", "handleStoreChange", "check changed", checkIfSnapshotChanged(inst, true))
+     if (checkIfSnapshotChanged(inst)) {
+       // Force a re-render.
+       forceStoreRerender(fiber);
+@@ -16955,15 +16957,22 @@ function subscribeToStore(fiber, inst, subscribe) {
+   }; // Subscribe to the store and return a clean-up function.
+ 
+ 
++  console.log("useSyncExternalStore", "subscribeToStore", "SUBSCRIBING")
+   return subscribe(handleStoreChange);
+ }
+ 
+-function checkIfSnapshotChanged(inst) {
++function checkIfSnapshotChanged(inst, debug) {
+   var latestGetSnapshot = inst.getSnapshot;
+   var prevValue = inst.value;
+ 
+   try {
+     var nextValue = latestGetSnapshot();
++    if (debug) {
++        console.groupCollapsed("useSyncExternalStore checkIfSnapshotChanged")
++        console.log("prevValue", JSON.stringify(prevValue))
++        console.log("nextValue", JSON.stringify(nextValue))
++        console.groupEnd()
++    }
+     return !objectIs(prevValue, nextValue);
+   } catch (error) {
+     return true;
